@@ -141,6 +141,6 @@ for epoch in range(epochs):
         break
 
 
-# ---------- Save Model ----------
+# Save Model
 torch.save(early_stopper.best_model_state, "best_pointnet.pth")
 print("Model saved as pointnet_model.pth")

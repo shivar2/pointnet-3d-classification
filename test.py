@@ -38,12 +38,6 @@ model.eval()
 print("Model is ready!")
 
 # ---------- Testing ----------
-correct = 0
-total = 0
-
-cls_correct = np.zeros(num_classes)
-cls_total = np.zeros(num_classes)
-
 confusion = np.zeros((num_classes, num_classes), dtype=np.int64)
 
 with torch.no_grad():
