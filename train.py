@@ -13,6 +13,7 @@ if project_root not in sys.path:
 from datasets.pointnet_dataset import PointNetDataset
 from models.pointnet_cls import PointNetCls
 from utils.early_stopping import EarlyStopping
+from utils.data_utils import split_data
 
 # Check device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -35,10 +36,7 @@ lr=0.001
 # Read and Split dataset
 dataset = PointNetDataset("data/ModelNet40", split="train")
 
-train_size = int((1-val_ratio) * len(dataset))
-val_size = len(dataset) - train_size
-
-train_data, val_data = random_split(dataset, [train_size, val_size])
+train_data, val_data = split_data(dataset, val_ratio, seed)
 
 train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
 val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False)
