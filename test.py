@@ -48,12 +48,8 @@ with torch.no_grad():
         preds, _ = model(points)
         predicted = preds.argmax(dim=1)
 
-        total += labels.size(0)
-        correct += (predicted == labels).sum().item()
-
         for t, p in zip(labels.view(-1), predicted.view(-1)):
             confusion[t.item(), p.item()] += 1
-
 
 # Result
 total = confusion.sum()
@@ -77,6 +73,7 @@ for i in range(num_classes):
     class_accs.append(acc)
     print(f"Class {i:02d}: {acc:.2f}%")
 
+# Check calculations
 print(sum(cls_total) == total)
 print(sum(cls_correct) == correct)
 
