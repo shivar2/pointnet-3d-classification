@@ -1,9 +1,8 @@
-from torch.utils.data import Subset
 import numpy as np
 
 def split_data(dataset, val_ratio=0.15, seed=42):
     np.random.seed(seed)
-    targets = np.array([label for _, label in dataset])
+    targets = np.array(dataset.labels)
     num_classes = len(np.unique(targets))
 
     train_indices = []
@@ -16,8 +15,4 @@ def split_data(dataset, val_ratio=0.15, seed=42):
         val_indices.extend(class_idx[:n_val])
         train_indices.extend(class_idx[n_val:])
 
-
-    train_subset = Subset(dataset, train_indices)
-    val_subset = Subset(dataset, val_indices)
-
-    return train_subset, val_subset
+    return train_indices, val_indices

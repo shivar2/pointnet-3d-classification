@@ -1,6 +1,6 @@
 import os, sys
 import torch
-from torch.utils.data import DataLoader, random_split
+from torch.utils.data import DataLoader, Subset
 from torch.optim import Adam
 from torch.optim.lr_scheduler import StepLR
 import numpy as np 
@@ -36,7 +36,10 @@ lr=0.001
 # Read and Split dataset
 dataset = PointNetDataset("data/ModelNet40", split="train")
 
-train_data, val_data = split_data(dataset, val_ratio, seed)
+train_indices, val_indices = split_data(dataset, val_ratio, seed)
+
+train_data = Subset(PointNetDataset("data/ModelNet40"), train_indices)
+val_data = Subset(PointNetDataset("data/ModelNet40"), val_indices)
 
 train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
 val_loader = DataLoader(val_data, batch_size=batch_size, shuffle=False)
@@ -49,9 +52,9 @@ optimizer = Adam(model.parameters(), lr=lr)
 scheduler = StepLR(optimizer, step_size=20, gamma=0.5)
 early_stopper = EarlyStopping(patience=8, min_delta=1e-4)
 
+print("Start Training!")
 
 # Training Loop
-
 for epoch in range(epochs):
     
     # ---------- Training ----------

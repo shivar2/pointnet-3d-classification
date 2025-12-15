@@ -12,12 +12,14 @@ class PointNetDataset(Dataset):
         self.classes = sorted(os.listdir(root_dir))
         self.class_to_idx = {cls: i for i,cls in enumerate(self.classes)}
         self.files = []     # [file_path, label]
+        self.labels = []
 
         for cls in self.classes:
             path = os.path.join(root_dir, cls, split)
             for f in os.listdir(path):
                 if f.endswith('.off'):
                     self.files.append((os.path.join(path, f), self.class_to_idx[cls]))
+                    self.labels.append(self.class_to_idx[cls])
 
     def __len__(self):
         return len(self.files)
