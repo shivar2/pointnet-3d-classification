@@ -66,13 +66,31 @@ The following metrics are reported:
 - Per-class accuracy
 - Confusion matrix
 
-## 📈 Results
+## 📈 Results and Analysis
 
-- **Overall Test Accuracy**: **80.5%**
+- **Overall Test Accuracy**: **83.83%**
+### Per-Class Accuracy Comparison
 
-The model performs well on most rigid object categories, while classes with high geometric similarity show lower accuracy.
+We compare per-class classification accuracy using two different data splitting strategies:
 
-Per-class accuracy and confusion matrix visualizations are provided in the `results/` directory.
+- **PyTorch random_split**
+- **Custom stratified split**
+
+#### PyTorch `random_split`
+![Per-class Accuracy (random split)](results/per_class_accuracy_torch_split.png)
+
+#### Custom Stratified Split
+![Per-class Accuracy (stratified split)](results/per_class_accuracy.png)
+
+The random split leads to uneven class distribution in the validation set, causing
+significant performance degradation for some classes.
+The stratified split improves class balance and results in more stable per-class accuracy.
+
+
+## 📉 Training Curves
+The following plots show the training and validation loss during model training.
+![Training and Validation Loss](results/loss_plot.png)
+
 
 ## 📓 Jupyter Notebook (Step-by-Step Walkthrough)
 
